@@ -1,28 +1,28 @@
 //!===================SLIDING WINDOW O(n)===========================
 function maxSubarraySum(arr, num) {
-	let maxSum = 0;
-	let tempSum = 0;
-	if (arr.length < num) return null;
+    let maxSum = 0;
+    let tempSum = 0;
+    if (arr.length < num) return null;
 
-	// находим сумму первых num (пример num = 3) чисел массива и условно
-	// принимаем их сумму как максимальную (пример первых 3 чила)
-	for (let i = 0; i < num; i++) {
-		maxSum += arr[i];
-	}
+    // находим сумму первых num (пример num = 3) чисел массива и условно
+    // принимаем их сумму как максимальную (пример первых 3 чила)
+    for (let i = 0; i < num; i++) {
+        maxSum += arr[i];
+    }
 
-	// временную сумму tempSum приравниваем к максимальной на данный момент maxSum
-	tempSum = maxSum;
+    // временную сумму tempSum приравниваем к максимальной на данный момент maxSum
+    tempSum = maxSum;
 
-	// от временно суммы tempSum отнимаем в первой итерации первое число массива
-	// и прибавляем следующее(пример отнимаем 1е и прибавляем 4е)
-	// затем сравниваем времменую сумму tempSum с максимальной maxSum
-	// и maxSum присваиваем максимальное значение
-	for (let i = num; i < arr.length; i++) {
-		tempSum = tempSum - arr[i - num] + arr[i];
-		maxSum = Math.max(maxSum, tempSum);
-	}
+    // от временно суммы tempSum отнимаем в первой итерации первое число массива
+    // и прибавляем следующее(пример отнимаем 1е и прибавляем 4е)
+    // затем сравниваем времменую сумму tempSum с максимальной maxSum
+    // и maxSum присваиваем максимальное значение
+    for (let i = num; i < arr.length; i++) {
+        tempSum = tempSum - arr[i - num] + arr[i];
+        maxSum = Math.max(maxSum, tempSum);
+    }
 
-	return maxSum;
+    return maxSum;
 }
 
 // console.log(maxSubarraySum([1, 2, 5, 2, 8, 1, 5], 2)); // 10
@@ -33,78 +33,78 @@ function maxSubarraySum(arr, num) {
 
 //?===================exercise maxSubarraySum======================
 function maxSubarraySum(arr, num) {
-	if (arr.length < num) return null;
+    if (arr.length < num) return null;
 
-	let maxSum = 0;
-	let tempSum = 0;
+    let maxSum = 0;
+    let tempSum = 0;
 
-	for (let i = 0; i < num; i++) {
-		maxSum += arr[i];
-	}
+    for (let i = 0; i < num; i++) {
+        maxSum += arr[i];
+    }
 
-	tempSum = maxSum;
+    tempSum = maxSum;
 
-	for (let i = num; i < arr.length; i++) {
-		tempSum = tempSum - arr[i - num] + arr[i];
-		maxSum = Math.max(tempSum, maxSum);
-	}
-	return maxSum;
+    for (let i = num; i < arr.length; i++) {
+        tempSum = tempSum - arr[i - num] + arr[i];
+        maxSum = Math.max(tempSum, maxSum);
+    }
+    return maxSum;
 }
 //?===================exercise minSubArrayLen======================
 function minSubArrayLen(arr, num) {
-	let start = 0;
-	let end = arr.length - 1;
-	let sum = 0;
+    let start = 0;
+    let end = arr.length - 1;
+    let sum = 0;
 
-	for (let i = 0; i < arr.length; i++) {
-		sum += arr[i];
-	}
+    for (let i = 0; i < arr.length; i++) {
+        sum += arr[i];
+    }
 
-	if (sum < num) return 0;
+    if (sum < num) return 0;
 
-	while (start <= end) {
-		if (sum >= num + arr[start] || sum >= num + arr[end]) {
-			if (arr[start] <= arr[end]) {
-				sum -= arr[start];
-				start++;
-			} else {
-				sum -= arr[end];
-				end--;
-			}
-		} else {
-			return end - start + 1;
-		}
-	}
+    while (start <= end) {
+        if (sum >= num + arr[start] || sum >= num + arr[end]) {
+            if (arr[start] <= arr[end]) {
+                sum -= arr[start];
+                start++;
+            } else {
+                sum -= arr[end];
+                end--;
+            }
+        } else {
+            return end - start + 1;
+        }
+    }
 }
 
 //*****************solution from video************* */
 function minSubArrayLen(nums, sum) {
-	let total = 0;
-	let start = 0;
-	let end = 0;
-	let minLen = Infinity;
+    let total = 0;
+    let start = 0;
+    let end = 0;
+    let minLen = Infinity;
 
-	while (start < nums.length) {
-		// if current window doesn't add up to the given sum then
-		// move the window to right
-		if (total < sum && end < nums.length) {
-			total += nums[end];
-			end++;
-		}
-		// if current window adds up to at least the sum given then
-		// we can shrink the window
-		else if (total >= sum) {
-			minLen = Math.min(minLen, end - start);
-			total -= nums[start];
-			start++;
-		}
-		// current total less than required total but we reach the end, need this or else we'll be in an infinite loop
-		else {
-			break;
-		}
-	}
+    while (start < nums.length) {
+        // if current window doesn't add up to the given sum then
+        // move the window to right
+        if (total < sum && end < nums.length) {
+            total += nums[end];
+            end++;
+        }
+        // if current window adds up to at least the sum given then
+        // we can shrink the window
+        else if (total >= sum) {
+            minLen = Math.min(minLen, end - start);
+            total -= nums[start];
+            start++;
+        }
+        // current total less than required total but we reach the end, need this or else we'll be in an infinite loop
+        else {
+            break;
+        }
+    }
 
-	return minLen === Infinity ? 0 : minLen;
+    return minLen === Infinity ? 0 : minLen;
 }
 // console.log(minSubArrayLen([2, 3, 1, 2, 4, 3], 7)); // 2
 // console.log(minSubArrayLen([2, 1, 6, 5, 4], 9)); // 2
@@ -116,28 +116,57 @@ function minSubArrayLen(nums, sum) {
 
 //?===================exercise findLongestSubstring================
 function findLongestSubstring(str) {
-	let subLength = 0;
-	let obj = {};
-	let start = 0;
+    let subLength = 0;
+    let obj = {};
+    let start = 0;
 
-	for (let end = 0; end < str.length; end++) {
-		let char = str[end];
+    for (let end = 0; end < str.length; end++) {
+        let char = str[end];
 
-		if (obj[char]) {
-			start = Math.max(start, obj[char]);
-		}
-		subLength = Math.max(subLength, end - start + 1);
-		obj[char] = end + 1;
-	}
-	return subLength;
+        if (obj[char]) {
+            start = Math.max(start, obj[char]);
+        }
+        subLength = Math.max(subLength, end - start + 1);
+        obj[char] = end + 1;
+    }
+    return subLength;
 }
 
-console.log(findLongestSubstring('')); // 0
-console.log(findLongestSubstring('rithmschool')); // 7
-console.log(findLongestSubstring('thisisawesome')); // 6
-console.log(findLongestSubstring('thecatinthehat')); // 7
-console.log(findLongestSubstring('bbbbbb')); // 1
-console.log(findLongestSubstring('longestsubstring')); // 8
-console.log(findLongestSubstring('thisishowwedoit')); // 6
+// console.log(findLongestSubstring('')); // 0
+// console.log(findLongestSubstring('rithmschool')); // 7
+// console.log(findLongestSubstring('thisisawesome')); // 6
+// console.log(findLongestSubstring('thecatinthehat')); // 7
+// console.log(findLongestSubstring('bbbbbb')); // 1
+// console.log(findLongestSubstring('longestsubstring')); // 8
+// console.log(findLongestSubstring('thisishowwedoit')); // 6
+
+/********************************************* */
+
+function longestConsec(strarr, k) {
+    /* Sliding window pattern*/
+
+    if (k <= 0 || strarr.length < k || !strarr.length) return '';
+    if (k === strarr.lenght) return strarr.join('');
+
+    let maxStr = '';
+    let tempStr = '';
+
+    for (let i = 0; i < k; i++) {
+        maxStr = maxStr + strarr[i];
+    }
+
+    tempStr = maxStr;
+
+    for (let i = 1; i < strarr.length; i++) {
+        tempStr = strarr.slice(i, i + k).join('');
+        if (tempStr.length > maxStr.length) {
+            maxStr = tempStr;
+        }
+    }
+
+    return maxStr;
+}
+
+longestConsec(['it', 'wkppv', 'ixoyx', '3452', 'zzzzzzzzzzzz'], 15);
 
 module.exports = maxSubarraySum;
